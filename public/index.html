@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Морской бой</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="lobby">
+        <button class="button-create">
+
+        </button>
+        <button class="btn-join">
+
+        </button>
+    </div>
+
+    <div class="game-area" style="display: none;">
+        <h2>Моё поле</h2>
+        <div class="my-board"></div>
+        <h2>Поле противника</h2>
+        <div class="enemy-board"></div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/socket-client.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
