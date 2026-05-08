@@ -7,24 +7,41 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="lobby">
-        <button class="button-create">
-        </button>
-        <button class="btn-join">
+<div class="lobby" id="lobby">
+    <button id="btn-create">Создать комнату</button>
+    <input type="text" id="room-id" placeholder="ID комнаты">
+    <button id="btn-join">Войти в игру</button>
+</div>
 
-        </button>
+<div class="game-area" id="game-area" style="display: none;">
+    <h2 id="status" style="text-align: center; margin-bottom: 20px;"></h2>
+
+    <div class="boards-container">
+        <div class="board-wrapper">
+            <h3>Моё поле</h3>
+            <div id="my-board" class="board"></div>
+        </div>
+
+        <div id="turn-indicator" class="turn-indicator"></div>
+
+        <div class="board-wrapper">
+            <h3>Поле противника</h3>
+            <div id="enemy-board" class="board disabled"></div>
+        </div>
     </div>
+</div>
 
-    <div class="game-area" style="display: none;">
-        <h2>Моё поле</h2>
-        <div id="my-board" class="board"></div>
-        <h2>Поле противника</h2>
-        <div id="enemy-board" class="board"></div>
+<div id="game-over-modal" class="modal" style="display: none;">
+    <div class="modal-content">
+        <h2 id="modal-title">Игра окончена</h2>
+        <button id="btn-rematch">Предложить реванш</button>
+        <button id="btn-menu">В главное меню</button>
     </div>
+</div>
 
-    <script src="/socket.io/socket.io.js"></script>
-    <script src="js/socket-client.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
+<script src="/socket.io/socket.io.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/socket-client.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

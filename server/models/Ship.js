@@ -5,12 +5,21 @@ class Ship {
         this.coordinates = [];
     }
 
+    setCoordinates(coordinates) {
+        this.coordinates = coordinates;
+    }
+
+    getCoordinates() {
+        return this.coordinates;
+    }
+
     hit(){
         this.hits++;
     }
 
-    isDead() {
+    isSunk() {
         return this.hits >= this.length;
     }
 }
+
 module.exports = Ship;
