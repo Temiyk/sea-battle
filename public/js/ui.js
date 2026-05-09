@@ -26,9 +26,7 @@ const UI = {
     updateCell(boardId, x, y, className) {
         const board = document.getElementById(boardId);
         const cell = board.querySelector(`.cell[data-x="${x}"][data-y="${y}"]`);
-        if (cell) {
-            cell.classList.add(className);
-        }
+        if (cell) cell.classList.add(className);
     },
 
     setStatus(text) {
@@ -36,8 +34,26 @@ const UI = {
         if (status) status.textContent = text;
     },
 
+    setLobbyStatus(text) {
+        const status = document.getElementById('lobby-status');
+        if (status) status.textContent = text;
+    },
+
+    showPlacement() {
+        document.getElementById('lobby').style.display = 'none';
+        document.getElementById('game-area').style.display = 'none';
+        document.getElementById('placement-area').style.display = 'block';
+    },
+
+    showLobby() {
+        document.getElementById('placement-area').style.display = 'none';
+        document.getElementById('game-area').style.display = 'none';
+        document.getElementById('lobby').style.display = 'flex';
+    },
+
     showGameArea() {
         document.getElementById('lobby').style.display = 'none';
+        document.getElementById('placement-area').style.display = 'none';
         document.getElementById('game-area').style.display = 'block';
     },
 
@@ -53,6 +69,31 @@ const UI = {
             indicator.innerHTML = '&#8592;';
             enemyBoard.classList.add('disabled');
             this.setStatus('Ход противника...');
+        }
+    },
+
+    // Отрисовка миниатюр флота
+    initFleet(containerId) {
+        const container = document.getElementById(containerId);
+        container.innerHTML = '';
+        const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
+        ships.forEach(size => {
+            const shipDiv = document.createElement('div');
+            shipDiv.className = `mini-ship size-${size}`;
+            for(let i=0; i<size; i++){
+                const cell = document.createElement('div');
+                cell.className = 'mini-cell';
+                shipDiv.appendChild(cell);
+            }
+            container.appendChild(shipDiv);
+        });
+    },
+
+    markShipSunk(containerId, size) {
+        const container = document.getElementById(containerId);
+        const ship = Array.from(container.querySelectorAll(`.mini-ship.size-${size}:not(.sunk)`))[0];
+        if (ship) {
+            ship.classList.add('sunk');
         }
     },
 

@@ -7,41 +7,59 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-<div class="lobby" id="lobby">
-    <button id="btn-create">Создать комнату</button>
-    <input type="text" id="room-id" placeholder="ID комнаты">
-    <button id="btn-join">Войти в игру</button>
-</div>
-
-<div class="game-area" id="game-area" style="display: none;">
-    <h2 id="status" style="text-align: center; margin-bottom: 20px;"></h2>
-
-    <div class="boards-container">
-        <div class="board-wrapper">
-            <h3>Моё поле</h3>
-            <div id="my-board" class="board"></div>
-        </div>
-
-        <div id="turn-indicator" class="turn-indicator"></div>
-
-        <div class="board-wrapper">
-            <h3>Поле противника</h3>
-            <div id="enemy-board" class="board disabled"></div>
+    <div class="lobby" id="lobby">
+        <div class="lobby-card">
+            <h1>Морской Бой</h1>
+            <p>Сразитесь с друзьями онлайн</p>
+            <button id="btn-create" class="btn primary-btn">Создать комнату</button>
+            <div class="divider">или</div>
+            <input type="text" id="room-id" placeholder="ID комнаты">
+            <button id="btn-join" class="btn secondary-btn">Войти в игру</button>
+            <p id="lobby-status" class="status-text"></p>
         </div>
     </div>
-</div>
 
-<div id="game-over-modal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <h2 id="modal-title">Игра окончена</h2>
-        <button id="btn-rematch">Предложить реванш</button>
-        <button id="btn-menu">В главное меню</button>
+    <div class="placement-area" id="placement-area" style="display: none;">
+        <h2 id="placement-status">Расстановка кораблей</h2>
+        <div class="placement-controls">
+            <button id="btn-rotate" class="btn secondary-btn">Поворот: Горизонтально</button>
+            <button id="btn-randomize" class="btn secondary-btn">Случайно</button>
+            <button id="btn-ready" class="btn success-btn" disabled>Готов к бою!</button>
+        </div>
+        <div id="placement-board" class="board"></div>
     </div>
-</div>
 
-<script src="/socket.io/socket.io.js"></script>
-<script src="js/ui.js"></script>
-<script src="js/socket-client.js"></script>
-<script src="js/app.js"></script>
+    <div class="game-area" id="game-area" style="display: none;">
+        <h2 id="status" style="text-align: center; margin-bottom: 20px;"></h2>
+
+        <div class="boards-container">
+            <div class="board-wrapper">
+                <h3>Моё поле</h3>
+                <div id="my-board" class="board"></div>
+                <div id="my-fleet" class="fleet-status"></div>
+            </div>
+
+            <div id="turn-indicator" class="turn-indicator"></div>
+
+            <div class="board-wrapper">
+                <h3>Поле противника</h3>
+                <div id="enemy-board" class="board disabled"></div>
+                <div id="enemy-fleet" class="fleet-status"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="game-over-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <h2 id="modal-title">Игра окончена</h2>
+            <button id="btn-rematch" class="btn primary-btn">Предложить реванш</button>
+            <button id="btn-menu" class="btn secondary-btn">В главное меню</button>
+        </div>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/socket-client.js"></script>
+    <script src="js/app.js"></script>
 </body>
 </html>

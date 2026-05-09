@@ -20,6 +20,10 @@ class Ship {
     isSunk() {
         return this.hits >= this.length;
     }
+
+    reset() {
+        this.hits = 0;
+    }
 }
 
 module.exports = Ship;

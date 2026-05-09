@@ -1,99 +1,241 @@
 body {
-    font-family: sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     padding: 20px;
+    background-color: #f0f4f8;
+    color: #333;
+    margin: 0;
+}
+
+.lobby {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.lobby-card {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 400px;
+    width: 100%;
+}
+
+.lobby-card h1 {
+    margin-top: 0; color: #2c3e50;
+}
+
+.lobby-card p {
+    color: #7f8c8d; margin-bottom: 24px;
+}
+
+.divider {
+    margin: 20px 0; color: #bdc3c7; font-size: 14px; text-transform: uppercase;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+}
+
+.btn:disabled {
+    opacity: 0.5; cursor: not-allowed;
+}
+
+.btn:active:not(:disabled) {
+    transform: scale(0.98);
+}
+
+.primary-btn {
+    background-color: #3498db; color: white;
+}
+
+.primary-btn:hover:not(:disabled) {
+    background-color: #2980b9;
+}
+
+.secondary-btn {
+    background-color: #ecf0f1; color: #2c3e50;
+}
+
+.secondary-btn:hover:not(:disabled) {
+    background-color: #bdc3c7;
+}
+
+.success-btn {
+    background-color: #2ecc71; color: white;
+}
+
+.success-btn:hover:not(:disabled) {
+    background-color: #27ae60;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ecf0f1;
+    border-radius: 6px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+input[type="text"]:focus {
+    outline: none; border-color: #3498db;
+}
+
+.placement-area {
+    text-align: center; max-width: 500px; margin: 0 auto;
+}
+.placement-controls {
+    display: flex; gap: 10px; margin-bottom: 20px;
+}
+.placement-controls .btn {
+    width: auto; flex: 1;
+}
+#placement-board {
+    margin: 0 auto;
 }
 
 .boards-container {
     display: flex;
     justify-content: center;
-    align-items: center;
-    gap: 30px;
+    align-items: flex-start;
+    gap: 40px;
 }
 
 .board-wrapper {
     display: flex;
     flex-direction: column;
     align-items: center;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 }
 
-/* Индикатор хода */
 .turn-indicator {
     font-size: 50px;
     font-weight: bold;
-    color: #333;
+    color: #3498db;
     width: 60px;
     text-align: center;
+    align-self: center;
 }
 
 .disabled {
-    pointer-events: none;
-    opacity: 0.6;
+    pointer-events: none; opacity: 0.6;
 }
 
 .board {
     display: grid;
     grid-template-columns: repeat(10, 30px);
     grid-template-rows: repeat(10, 30px);
-    border-top: 1px solid #333;
-    border-left: 1px solid #333;
+    border-top: 2px solid #2c3e50;
+    border-left: 2px solid #2c3e50;
     width: max-content;
+    background-color: white;
 }
 
 .cell {
-    background-color: #add8e6;
+    background-color: #e0f7fa;
     width: 30px;
     height: 30px;
     box-sizing: border-box;
-    border-bottom: 1px solid #333;
-    border-right: 1px solid #333;
+    border-bottom: 2px solid #2c3e50;
+    border-right: 2px solid #2c3e50;
     cursor: pointer;
+    transition: background-color 0.1s;
+}
+
+.cell:hover:not(.ship):not(.hit):not(.miss) {
+    background-color: #b2ebf2;
+}
+
+.cell.ship {
+    background-color: #2c3e50;
+}
+
+.cell.miss {
+    background-color: #bdc3c7; position: relative;
+}
+
+.cell.miss::after {
+    content: "•"; position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -50%); color: #7f8c8d; font-size: 20px;
 }
 
 .cell.hit {
-    position: relative;
-    background-color: #ffcccb;
+    position: relative; background-color: #ffcdd2;
 }
 
 .cell.hit::before, .cell.hit::after {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 2px;
-    background-color: red;
-    top: 50%;
-    left: 0;
-    z-index: 2;
+    content: ""; position: absolute; width: 100%; height: 3px;
+    background-color: #c0392b; top: 50%; left: 0; z-index: 2;
 }
 
 .cell.hit::before {
     transform: rotate(45deg);
 }
+
 .cell.hit::after {
     transform: rotate(135deg);
 }
 
 .cell.ship.hit {
-    background-color: darkblue;
+    background-color: #2c3e50;
 }
 
-.cell.miss {
-    background-color: grey;
+.cell.hover-valid {
+    background-color: #a5d6a7 !important;
 }
-.cell.ship {
-    background-color: darkblue;
+.cell.hover-invalid {
+    background-color: #ef9a9a !important;
+}
+
+.fleet-status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 20px;
+    justify-content: center;
+    width: 300px;
+}
+
+.mini-ship {
+    display: flex; gap: 2px;
+}
+
+.mini-cell {
+    width: 14px; height: 14px; background-color: #2c3e50;
+}
+
+.mini-ship.sunk .mini-cell {
+    background-color: #c0392b; position: relative;
+}
+
+.mini-ship.sunk {
+    opacity: 0.5;
 }
 
 .modal {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.5);
-    display: flex; align-items: center; justify-content: center;
-    z-index: 100;
+    background: rgba(0,0,0,0.6); backdrop-filter: blur(3px);
+    display: flex; align-items: center; justify-content: center; z-index: 100;
 }
 
 .modal-content {
-    background: white; padding: 30px; border-radius: 8px; text-align: center;
-}
-
-.modal-content button {
-    margin: 10px; padding: 10px 20px; cursor: pointer; font-size: 16px;
+    background: white; padding: 40px; border-radius: 12px;
+    text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
 }

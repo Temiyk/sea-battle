@@ -9,19 +9,18 @@ class Game {
         this.started = false;
     }
 
-    addPlayer(playerId) {
+    addPlayer(playerId, shipsCoords) {
         if (this.players.length < 2) {
             this.players.push(playerId);
+            const board = new Board();
+            board.loadShips(shipsCoords);
+            this.boards[playerId] = board;
         }
     }
 
     start(){
         if(this.players.length !== 2) return;
-        this.players.forEach(id => {
-           const board = new Board();
-           board.placeRandomShips();
-           this.boards[id] = board;
-        });
+        this.players.forEach(id => this.boards[id].reset());
         this.turn = this.players[0];
         this.started = true;
     }

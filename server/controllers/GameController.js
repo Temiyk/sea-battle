@@ -8,18 +8,17 @@ class GameController {
 
     init() {
         this.io.on('connection', (socket) => {
-            console.log(`Игрок подключился: ${socket.id}`);
 
-            socket.on('createGame', () => {
+            socket.on('createGame', (ships) => {
                 const gameId = 'room_' + Math.floor(Math.random() * 10000);
                 const game = new Game(gameId);
-                game.addPlayer(socket.id);
+                game.addPlayer(socket.id, ships);
                 this.games[gameId] = game;
                 socket.join(gameId);
                 socket.emit('gameCreated', { gameId });
             });
 
-            socket.on('joinGame', (gameId) => {
+            socket.on('joinGame', ({ gameId, ships }) => {
                 const game = this.games[gameId];
                 if (!game) {
                     socket.emit('error', 'Комната не найдена');
@@ -29,10 +28,11 @@ class GameController {
                     socket.emit('error', 'Комната заполнена');
                     return;
                 }
-                game.addPlayer(socket.id);
-                socket.join(gameId);
 
+                game.addPlayer(socket.id, ships);
+                socket.join(gameId);
                 game.start();
+
                 game.players.forEach((playerId) => {
                     const playerSocket = this.io.sockets.sockets.get(playerId);
                     if (playerSocket) {
@@ -97,14 +97,13 @@ class GameController {
 
             socket.on('leaveRoom', (gameId) => {
                 if(this.games[gameId]) {
-                    socket.to(gameId).emit('error', 'Противник покинул комнату. Игра завершена.');
+                    socket.to(gameId).emit('error', 'Противник покинул комнату.');
                     delete this.games[gameId];
                 }
                 socket.leave(gameId);
             });
 
             socket.on('disconnect', () => {
-                console.log(`Игрок отключился: ${socket.id}`);
                 for (const id in this.games) {
                     const game = this.games[id];
                     if (game.players.includes(socket.id)) {
