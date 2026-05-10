@@ -10,8 +10,11 @@ class Game {
     }
 
     addPlayer(playerId, shipsCoords) {
-        if (this.players.length < 2) {
+        if (!this.players.includes(playerId) && this.players.length < 2) {
             this.players.push(playerId);
+        }
+
+        if (this.players.includes(playerId)) {
             const board = new Board();
             board.loadShips(shipsCoords);
             this.boards[playerId] = board;

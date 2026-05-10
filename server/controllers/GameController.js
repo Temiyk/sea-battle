@@ -24,7 +24,7 @@ class GameController {
                     socket.emit('error', 'Комната не найдена');
                     return;
                 }
-                if (game.players.length >= 2) {
+                if (game.players.length >= 2 && !game.players.includes(socket.id)) {
                     socket.emit('error', 'Комната заполнена');
                     return;
                 }
@@ -49,8 +49,11 @@ class GameController {
                 const game = this.games[gameId];
                 if (!game) return;
                 const result = game.handleShot(socket.id, +x, +y);
+
                 if (result.error) {
-                    socket.emit('error', result.error);
+                    if(result.error !== 'Клетка закрашена!') {
+                        socket.emit('error', result.error);
+                    }
                     return;
                 }
                 this.io.to(gameId).emit('shotResult', {
@@ -78,8 +81,21 @@ class GameController {
 
                 if (game.rematchRequests.size === 2) {
                     game.rematchRequests.clear();
-                    game.start();
+                    game.started = false;
+                    game.boards = {};
+                    this.io.to(gameId).emit('rematchAccepted');
+                } else {
+                    socket.to(gameId).emit('rematchRequested');
+                }
+            });
 
+            socket.on('submitNewShips', ({ gameId, ships }) => {
+                const game = this.games[gameId];
+                if (!game) return;
+                game.addPlayer(socket.id, ships);
+
+                if (Object.keys(game.boards).length === 2) {
+                    game.start();
                     game.players.forEach((playerId) => {
                         const playerSocket = this.io.sockets.sockets.get(playerId);
                         if (playerSocket) {
@@ -90,8 +106,6 @@ class GameController {
                             });
                         }
                     });
-                } else {
-                    socket.to(gameId).emit('rematchRequested');
                 }
             });
 

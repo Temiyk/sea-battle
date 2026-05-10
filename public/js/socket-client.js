@@ -4,6 +4,7 @@ const Network = {
     gameId: null,
     isMyTurn: false,
     myShips: [],
+    isRematch: false,
 
     createGame() {
         socket.emit('createGame', this.myShips);
@@ -29,6 +30,7 @@ const Network = {
 
 socket.on('gameCreated', (data) => {
     Network.gameId = data.gameId;
+    document.getElementById('lobby-controls').classList.add('hidden');
     UI.showGameArea();
     UI.setTurn(false);
     UI.setStatus(`Ожидание противника... ID комнаты: ${data.gameId}`);
@@ -41,6 +43,8 @@ socket.on('gameCreated', (data) => {
 
 socket.on('gameStarted', (data) => {
     if(data.gameId) Network.gameId = data.gameId;
+    Network.isRematch = false;
+
     UI.hideGameOver();
     UI.showGameArea();
 
@@ -79,6 +83,14 @@ socket.on('shotResult', (data) => {
 
 socket.on('rematchRequested', () => {
     UI.setStatus('Противник предлагает реванш!');
+});
+
+socket.on('rematchAccepted', () => {
+    Network.isRematch = true;
+    UI.hideGameOver();
+    window.Placement.reset();
+    UI.showPlacement();
+    UI.setLobbyStatus('');
 });
 
 socket.on('gameEnd', (data) => {

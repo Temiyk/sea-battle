@@ -11,22 +11,30 @@
         <div class="lobby-card">
             <h1>Морской Бой</h1>
             <p>Сразитесь с друзьями онлайн</p>
-            <button id="btn-create" class="btn primary-btn">Создать комнату</button>
-            <div class="divider">или</div>
-            <input type="text" id="room-id" placeholder="ID комнаты">
-            <button id="btn-join" class="btn secondary-btn">Войти в игру</button>
+            <div id="lobby-controls">
+                <button id="btn-create" class="btn primary-btn">Создать комнату</button>
+                <div class="divider">или</div>
+                <input type="text" id="room-id" placeholder="ID комнаты">
+                <button id="btn-join" class="btn secondary-btn">Войти в игру</button>
+            </div>
             <p id="lobby-status" class="status-text"></p>
         </div>
     </div>
 
     <div class="placement-area" id="placement-area" style="display: none;">
-        <h2 id="placement-status">Расстановка кораблей</h2>
+        <h2 id="placement-status">Перетяните корабли на поле</h2>
         <div class="placement-controls">
-            <button id="btn-rotate" class="btn secondary-btn">Поворот: Горизонтально</button>
+            <p style="font-size: 14px; color: #7f8c8d; width: 100%; margin: 0 0 10px 0;">(Кликните по кораблю на поле, чтобы повернуть его)</p>
+        </div>
+        <div id="ship-dock" class="ships-dock"></div>
+
+        <div id="placement-board" class="board"></div>
+
+        <div class="placement-controls" style="margin-top: 20px;">
             <button id="btn-randomize" class="btn secondary-btn">Случайно</button>
+            <button id="btn-reset" class="btn secondary-btn">Сбросить</button>
             <button id="btn-ready" class="btn success-btn" disabled>Готов к бою!</button>
         </div>
-        <div id="placement-board" class="board"></div>
     </div>
 
     <div class="game-area" id="game-area" style="display: none;">
@@ -60,6 +68,6 @@
     <script src="/socket.io/socket.io.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/socket-client.js"></script>
-    <script src="js/app.js"></script>
+<script src="js/app.js"></script>
 </body>
 </html>

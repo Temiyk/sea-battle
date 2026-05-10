@@ -2,7 +2,24 @@ const UI = {
     renderBoard(boardElementId) {
         const board = document.getElementById(boardElementId);
         board.innerHTML = '';
+
+        board.classList.add('board-with-labels');
+
+        const letters = ['', 'А', 'Б', 'В', 'Г', 'Д', 'Е', 'Ж', 'З', 'И', 'К'];
+
+        letters.forEach(letter => {
+            const label = document.createElement('div');
+            label.className = 'board-label';
+            label.textContent = letter;
+            board.appendChild(label);
+        });
+
         for (let y = 0; y < 10; y++) {
+            const numberLabel = document.createElement('div');
+            numberLabel.className = 'board-label';
+            numberLabel.textContent = y + 1;
+            board.appendChild(numberLabel);
+
             for (let x = 0; x < 10; x++) {
                 const cell = document.createElement('div');
                 cell.classList.add('cell');
@@ -72,20 +89,38 @@ const UI = {
         }
     },
 
-    // Отрисовка миниатюр флота
     initFleet(containerId) {
         const container = document.getElementById(containerId);
         container.innerHTML = '';
-        const ships = [4, 3, 3, 2, 2, 2, 1, 1, 1, 1];
-        ships.forEach(size => {
-            const shipDiv = document.createElement('div');
-            shipDiv.className = `mini-ship size-${size}`;
-            for(let i=0; i<size; i++){
-                const cell = document.createElement('div');
-                cell.className = 'mini-cell';
-                shipDiv.appendChild(cell);
-            }
-            container.appendChild(shipDiv);
+
+        const shipsGroups = {
+            4: [4],
+            3: [3, 3],
+            2: [2, 2, 2],
+            1: [1, 1, 1, 1]
+        };
+
+        container.style.display = 'flex';
+        container.style.flexDirection = 'column';
+        container.style.gap = '10px';
+        container.style.alignItems = 'center';
+
+        Object.keys(shipsGroups).sort((a, b) => b - a).forEach(size => {
+            const rowDiv = document.createElement('div');
+            rowDiv.className = 'fleet-row';
+
+            shipsGroups[size].forEach(s => {
+                const shipDiv = document.createElement('div');
+                shipDiv.className = `mini-ship size-${s}`;
+                for(let i = 0; i < s; i++){
+                    const cell = document.createElement('div');
+                    cell.className = 'mini-cell';
+                    shipDiv.appendChild(cell);
+                }
+                rowDiv.appendChild(shipDiv);
+            });
+
+            container.appendChild(rowDiv);
         });
     },
 
