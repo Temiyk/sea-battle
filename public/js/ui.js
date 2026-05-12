@@ -112,7 +112,7 @@ const UI = {
             shipsGroups[size].forEach(s => {
                 const shipDiv = document.createElement('div');
                 shipDiv.className = `mini-ship size-${s}`;
-                for(let i = 0; i < s; i++){
+                for (let i = 0; i < s; i++) {
                     const cell = document.createElement('div');
                     cell.className = 'mini-cell';
                     shipDiv.appendChild(cell);
@@ -132,8 +132,74 @@ const UI = {
         }
     },
 
-    showGameOver(message) {
+    showGameOver(message, stats) {
         document.getElementById('modal-title').textContent = message;
+
+        const statsEl = document.getElementById('game-stats');
+        statsEl.innerHTML = '';
+
+        if (stats) {
+            const rows = [
+                {
+                    icon: '⏱',
+                    label: 'Длительность',
+                    my: stats.duration,
+                    opponent: stats.duration,
+                    shared: true
+                },
+                {
+                    icon: '🎯',
+                    label: 'Выстрелов',
+                    my: stats.myShots,
+                    opponent: stats.opponentShots
+                },
+                {
+                    icon: '💥',
+                    label: 'Попаданий',
+                    my: `${stats.myHits} (${stats.myAccuracy}%)`,
+                    opponent: `${stats.opponentHits} (${stats.opponentAccuracy}%)`
+                },
+                {
+                    icon: '🚢',
+                    label: 'Потоплено кораблей',
+                    my: stats.mySunkenShips,
+                    opponent: stats.opponentSunkenShips
+                }
+            ];
+
+            const header = document.createElement('div');
+            header.className = 'stats-header';
+            header.innerHTML = `
+                <span class="stats-icon"></span>
+                <span class="stats-label"></span>
+                <span class="stats-col stats-col--me">Я</span>
+                <span class="stats-col stats-col--opp">Противник</span>
+            `;
+            statsEl.appendChild(header);
+
+            rows.forEach(row => {
+                const rowEl = document.createElement('div');
+                rowEl.className = 'stats-row';
+
+                if (row.shared) {
+                    rowEl.innerHTML = `
+                        <span class="stats-icon">${row.icon}</span>
+                        <span class="stats-label">${row.label}</span>
+                        <span class="stats-col stats-shared" style="grid-column: 3 / 5">${row.my}</span>
+                    `;
+                } else {
+                    rowEl.innerHTML = `
+                        <span class="stats-icon">${row.icon}</span>
+                        <span class="stats-label">${row.label}</span>
+                        <span class="stats-col stats-col--me">${row.my}</span>
+                        <span class="stats-col stats-col--opp">${row.opponent}</span>
+                    `;
+                }
+
+                statsEl.appendChild(rowEl);
+            });
+        }
+
         document.getElementById('game-over-modal').style.display = 'flex';
         document.getElementById('btn-rematch').disabled = false;
     },

@@ -80,6 +80,21 @@ body {
     background-color: #27ae60;
 }
 
+.back-btn {
+    background-color: transparent;
+    color: #7f8c8d;
+    border: 2px dashed #bdc3c7;
+    font-size: 14px;
+    font-weight: normal;
+    margin-top: 8px;
+}
+
+.back-btn:hover:not(:disabled) {
+    background-color: #f8f9fa;
+    border-color: #95a5a6;
+    color: #2c3e50;
+}
+
 input[type="text"] {
     width: 100%;
     padding: 12px;
@@ -238,6 +253,80 @@ input[type="text"]:focus {
 .modal-content {
     background: white; padding: 40px; border-radius: 12px;
     text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    min-width: 340px;
+}
+
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 20px;
+}
+
+.game-stats {
+    margin: 20px 0 4px;
+    border: 1px solid #ecf0f1;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 14px;
+    text-align: left;
+}
+
+.stats-header,
+.stats-row {
+    display: grid;
+    grid-template-columns: 28px 1fr 72px 72px;
+    align-items: center;
+    padding: 8px 12px;
+    gap: 4px;
+}
+
+.stats-header {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.stats-row {
+    border-top: 1px solid #ecf0f1;
+    color: #2c3e50;
+    transition: background-color 0.15s;
+}
+
+.stats-row:hover {
+    background-color: #f8f9fa;
+}
+
+.stats-icon {
+    font-size: 16px;
+    text-align: center;
+}
+
+.stats-label {
+    color: inherit;
+}
+
+.stats-col {
+    text-align: center;
+    font-weight: 600;
+}
+
+.stats-col--me {
+    color: #2980b9;
+}
+
+.stats-col--opp {
+    color: #c0392b;
+}
+
+.stats-shared {
+    text-align: center;
+    font-weight: 600;
+    color: #2c3e50;
+    grid-column: 3 / 5;
 }
 
 .ships-dock {

@@ -170,7 +170,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 const dockShip = e.target.closest('.dock-ship');
                 if (dockShip) {
                     this.draggedShipSize = parseInt(dockShip.dataset.size);
-                    this.draggedShipId = null; // null значит, что тащим из дока, а не с поля
+                    this.draggedShipId = null;
                     this.draggedShipIsHoriz = true;
                     e.dataTransfer.setData('text/plain', this.draggedShipSize);
                 }
@@ -182,14 +182,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     const ship = this.placedShips.find(s => s.id === shipId);
                     if (ship) {
                         this.draggedShipSize = ship.size;
-                        this.draggedShipId = ship.id; // Запоминаем ID, чтобы удалить старый при установке
+                        this.draggedShipId = ship.id;
                         this.draggedShipIsHoriz = ship.isHoriz;
                     }
                 }
             });
 
             board.addEventListener('dragover', (e) => {
-                e.preventDefault(); // Нужно, чтобы сработало событие drop
+                e.preventDefault();
                 if (!e.target.classList.contains('cell')) return;
 
                 this.clearHovers();
@@ -262,10 +262,19 @@ document.addEventListener('DOMContentLoaded', () => {
             socket.emit('submitNewShips', { gameId: Network.gameId, ships: Network.myShips });
             UI.showLobby();
             document.getElementById('lobby-controls').classList.add('hidden');
+            document.getElementById('btn-back-to-placement').classList.remove('hidden');
             UI.setLobbyStatus('Ожидание готовности противника...');
         } else {
             UI.showLobby();
+            document.getElementById('btn-back-to-placement').classList.remove('hidden');
         }
+    });
+
+    document.getElementById('btn-back-to-placement').addEventListener('click', () => {
+        document.getElementById('btn-back-to-placement').classList.add('hidden');
+        document.getElementById('lobby-controls').classList.remove('hidden');
+        UI.setLobbyStatus('');
+        UI.showPlacement();
     });
 
     document.getElementById('btn-create').addEventListener('click', () => {

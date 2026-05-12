@@ -66,7 +66,12 @@ class GameController {
                 });
 
                 if (game.isGameOver()) {
-                    this.io.to(gameId).emit('gameEnd', { winner: socket.id });
+                    const duration = Math.floor((Date.now() - game.startTime) / 1000);
+                    this.io.to(gameId).emit('gameEnd', {
+                        winner: socket.id,
+                        stats: game.stats,
+                        duration: duration
+                    });
                 } else {
                     this.io.to(gameId).emit('turnChanged', { turn: game.turn });
                 }
